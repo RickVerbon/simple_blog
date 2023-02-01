@@ -1,0 +1,1 @@
+This is a simple blog app, just to practice class based views
