@@ -1,14 +1,14 @@
 <div class="header">
-  <h2>Simple blog by Rick Verbon</h2>
+  <h2>Blog Name</h2>
 </div>
 
 <div class="row">
    <div class="leftcolumn">
        {%  for item in blog_items %}
         <div class="card">
-          <h2>{{ item.title }}</h2>
+            <h2><a href="{% url "detail-view" item.id %}"> {{ item.title }}</a></h2>
           <h5>{{ item.created }}</h5>
-
+          <!--<div class="fakeimg" style="height:200px;">Image</div>-->
           <p>{{ item.text }}</p>
         </div>
        {% endfor %}
@@ -16,14 +16,13 @@
   <div class="rightcolumn">
     <div class="card">
       <h2>About Me</h2>
-      <div class="fakeimg" style="height:100px;">Image</div>
       <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
     </div>
     <div class="card">
       <h3>Popular Post</h3>
-      <div class="fakeimg">Image</div><br>
-      <div class="fakeimg">Image</div><br>
-      <div class="fakeimg">Image</div>
+        {%  for item in popular_posts %}
+              <p><a href="{% url 'detail-view' item.id %}">{{  item  }}</a></p>
+          {% endfor %}
     </div>
     <div class="card">
       <h3>Follow Me</h3>
@@ -47,6 +46,10 @@ body {
   background: #f1f1f1;
 }
 
+
+.popular {
+    list-style-type: none;
+}
 /* Header/Blog Title */
 .header {
   padding: 30px;

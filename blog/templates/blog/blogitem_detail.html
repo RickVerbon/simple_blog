@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ blog_post.title }}</title>
+  <style>
+    .post-header {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .post-title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .post-date {
+      font-size: 18px;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .post-author {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+
+    .post-content {
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 0 50px 50px;
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+  <div class="post-header">
+    <div class="post-title">{{ blog_post.title }}</div>
+    <div class="post-date">{{ blog_post.date_created }}</div>
+    <div class="post-author">by {{ blog_post.author.username }}</div>
+  </div>
+  <div class="post-content">{{ blog_post.text|linebreaks }}</div>
+</body>
+</html>
