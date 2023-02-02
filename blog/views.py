@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from blog.models import BlogItem, BlogSetting
 
 
@@ -52,3 +52,12 @@ class BlogDetailView(DetailView):
         self.object.views += 1
         self.object.save()
         return response
+
+
+class BlogUpdateView(UpdateView):
+    model = BlogItem
+    fields = ('title', 'text', 'visible',)
+
+    def get_success_url(self):
+        username = self.kwargs['username']
+        return reverse_lazy('list-view', kwargs={'username': username})

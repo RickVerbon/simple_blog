@@ -41,5 +41,9 @@
     <div class="post-author">by {{ blog_post.author.username }}</div>
   </div>
   <div class="post-content">{{ blog_post.text|linebreaks }}</div>
+    <hr>
+    {% if user == blog_post.author %}
+        <h3><a href="{% url 'update-view' blog_post.author blog_post.id %}">Edit post</a></h3>
+    {% endif %}
 </body>
 </html>

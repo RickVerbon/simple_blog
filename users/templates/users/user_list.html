@@ -9,8 +9,9 @@
   </head>
   <body>
   <h1>Blogs</h1>
-    {% for user in users %}
-        <p><a href="{%  url 'list-view' user %}">{{user}}</a></p>
-    {% endfor %}
-  </body>
+        {% for user in users %}
+            <p><a href="{%  url 'list-view' user %}">{{user}}</a></p>
+        {% endfor %}
+
+    </body>
 </html>
