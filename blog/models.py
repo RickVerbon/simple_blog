@@ -13,3 +13,14 @@ class BlogItem(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BlogSetting(models.Model):
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    blog_name = models.CharField(max_length=40)
+    about_me = models.CharField(max_length=200)
+    header_color = models.CharField(max_length=10)
+    post_color = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.blog_name

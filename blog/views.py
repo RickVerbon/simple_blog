@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView
-from blog.models import BlogItem
+from blog.models import BlogItem, BlogSetting
 
 
 # Create your views here.
@@ -18,6 +18,9 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         popular_posts = BlogItem.objects.all().order_by('-views')
+        username = self.kwargs.get('username')
+        settings = BlogSetting.objects.get(author__username=username)
+        context['settings'] = settings
         if len(popular_posts) >= 3:
             context['popular_posts'] = popular_posts[:3]
         else:
@@ -28,7 +31,10 @@ class BlogListView(ListView):
 class BlogItemCreateView(CreateView):
     model = BlogItem
     fields = ('title', 'text', 'visible',)
-    success_url = reverse_lazy('list-view')
+
+    def get_success_url(self):
+        username = self.kwargs['username']
+        return reverse_lazy('list-view', kwargs={'username': username})
 
     def form_valid(self, form):
         #if the form is submitted, and valid. Make sure that the author is the logged in user
