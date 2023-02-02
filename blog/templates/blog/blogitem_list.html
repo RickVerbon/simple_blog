@@ -6,7 +6,7 @@
    <div class="leftcolumn">
        {%  for item in blog_items %}
         <div class="card">
-            <h2><a href="{% url "detail-view" item.id %}"> {{ item.title }}</a></h2>
+            <h2><a href="{% url "detail-view" item.author item.id %}"> {{ item.title }}</a></h2>
           <h5>{{ item.created }}</h5>
           <!--<div class="fakeimg" style="height:200px;">Image</div>-->
           <p>{{ item.text }}</p>
@@ -21,7 +21,7 @@
     <div class="card">
       <h3>Popular Post</h3>
         {%  for item in popular_posts %}
-              <p><a href="{% url 'detail-view' item.id %}">{{  item  }}</a></p>
+              <p><a href="{% url 'detail-view' item.author item.id %}">{{  item  }}</a></p>
           {% endfor %}
     </div>
     <div class="card">
