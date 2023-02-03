@@ -1,12 +1,12 @@
 <div class="header" style="background-color: {{ settings.header_color }}">
-  <h2> {{ settings.blog_name }}</h2>
+  <h2 style="color:{{ settings.header_text_color }}"> {{ settings.blog_name }}</h2>
 </div>
 
 <div class="row">
    <div class="leftcolumn">
        {%  for item in blog_items %}
         <div style="background-color: {{ settings.post_color }}" class="card">
-            <h2><a href="{% url "detail-view" item.author item.id %}"> {{ item.title }}</a></h2>
+            <h2 style="color: {{ header_color }}"><a href="{% url "detail-view" item.author item.id %}"> {{ item.title }}</a></h2>
           <h5>{{ item.created }}</h5>
           <!--<div class="fakeimg" style="height:200px;">Image</div>-->
           <p>{{ item.text }}</p>
@@ -32,7 +32,10 @@
 </div>
 
 <div class="footer">
-  <h2>Footer</h2>
+    {% if user == settings.author %}
+        <h3><a href="{% url 'settings-update-view' settings.author settings.id %}">Edit Blog</a></h3>
+
+    {% endif %}
 </div>
 
 <style>

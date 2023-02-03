@@ -61,3 +61,13 @@ class BlogUpdateView(UpdateView):
     def get_success_url(self):
         username = self.kwargs['username']
         return reverse_lazy('list-view', kwargs={'username': username})
+
+
+class BlogSettingsUpdateView(UpdateView):
+    model = BlogSetting
+    fields = ("blog_name", "about_me", "header_color", "post_color", "header_text_color", "post_color_text")
+
+    def get_success_url(self):
+        username = self.kwargs['username']
+        return reverse_lazy('list-view', kwargs={'username': username})
+
