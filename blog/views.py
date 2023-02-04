@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from blog.models import BlogItem, BlogSetting
 
 
@@ -19,8 +20,11 @@ class BlogListView(ListView):
         context = super().get_context_data(**kwargs)
         popular_posts = BlogItem.objects.all().order_by('-views')
         username = self.kwargs.get('username')
-        settings = BlogSetting.objects.get(author__username=username)
-        context['settings'] = settings
+        try:
+            settings = BlogSetting.objects.get(author__username=username)
+            context['settings'] = settings
+        except BlogSetting.DoesNotExist:
+            context['settings'] = None
         if len(popular_posts) >= 3:
             context['popular_posts'] = popular_posts[:3]
         else:
@@ -28,9 +32,10 @@ class BlogListView(ListView):
         return context
 
 
-class BlogItemCreateView(CreateView):
+class BlogItemCreateView(LoginRequiredMixin, CreateView):
     model = BlogItem
     fields = ('title', 'text', 'visible',)
+    login_url = "/login/"
 
     def get_success_url(self):
         username = self.kwargs['username']

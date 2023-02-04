@@ -13,5 +13,7 @@
             <p><a href="{%  url 'list-view' user %}">{{user}}</a></p>
         {% endfor %}
 
+  <h2><a href="{% url "login-view" %}">Login</a></h2>
+  <h2><a href="{% url "register-view" %}">Register</a></h2>
     </body>
 </html>

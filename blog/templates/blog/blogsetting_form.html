@@ -1,0 +1,8 @@
+<form method="POST" type="submit">
+    <table>
+        {% csrf_token %}
+        {{ form.as_table }}
+    </table>
+    <button type="submit">Change settings</button>
+</form>
+
