@@ -44,6 +44,8 @@
     <hr>
     {% if user == blog_post.author %}
         <h3><a href="{% url 'update-view' blog_post.author blog_post.id %}">Edit post</a></h3>
+        <h3><a href="{% url 'delete-view' blog_post.author blog_post.id %}">Delete post</a></h3>
+
     {% endif %}
 </body>
 </html>

@@ -2,12 +2,18 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from blog.models import BlogItem, BlogSetting
 
 
 # Create your views here.
+
+class AuthorRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        post_or_setting = self.get_object()
+        return post_or_setting.author == self.request.user
+
 class BlogListView(ListView):
     model = BlogItem
     context_object_name = 'blog_items' #Zodat ik geen 'object_list'  hoef te gebruiken in mijn template
@@ -61,7 +67,7 @@ class BlogDetailView(DetailView):
         return response
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(AuthorRequiredMixin, UpdateView):
     model = BlogItem
     fields = ('title', 'text', 'visible',)
 
@@ -70,11 +76,20 @@ class BlogUpdateView(UpdateView):
         return reverse_lazy('list-view', kwargs={'username': username})
 
 
-class BlogSettingsUpdateView(UpdateView):
+class BlogItemDeleteView(AuthorRequiredMixin, DeleteView):
+    model = BlogItem
+
+    def get_success_url(self):
+        username = self.kwargs['username']
+        return reverse_lazy('list-view', kwargs={'username': username})
+
+
+class BlogSettingsUpdateView(AuthorRequiredMixin, UpdateView):
     model = BlogSetting
     fields = ("blog_name", "about_me", "header_color", "post_color", "header_text_color", "post_color_text")
 
     def get_success_url(self):
         username = self.kwargs['username']
         return reverse_lazy('list-view', kwargs={'username': username})
+
 
